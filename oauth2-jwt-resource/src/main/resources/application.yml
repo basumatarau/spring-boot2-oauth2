@@ -1,0 +1,17 @@
+server:
+  port: 9100
+  servlet:
+    session:
+      cookie:
+        name: RESOURCESERVERSESSIONID
+security:
+  jwt:
+    public-key: classpath:public.txt
+
+spring:
+  jackson:
+    serialization:
+      INDENT_OUTPUT: true
+logging:
+  level:
+    org.springframework.security: DEBUG
