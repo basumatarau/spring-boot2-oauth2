@@ -8,7 +8,7 @@ spring:
     oauth2:
       client:
         registration:
-          # registrationId: 'local-auth-provider'
+          # registrationId: local-auth-provider
           local-auth-provider:
             clientId: clientId
             clientSecret: secret
@@ -17,13 +17,40 @@ spring:
             scope:
               - read
               - write
-        # provider details (e.g. user info endpoint to leverage openid protocol)
+          # registrationId: google
+          google:
+            clientId: 392651176733-31vv4ba3g2shnh3cogpb9gipq62jccst.apps.googleusercontent.com
+            clientSecret: EA22UQxwFyLv5AVCjx5Mk6JT
+            redirectUriTemplate: "{baseUrl}/oauth2/callback/{registrationId}"
+            scope:
+              #- openid
+              - email
+              - profile
+          # registrationId: github
+          github:
+            clientId: e0f41df93f25ab4c6c81
+            clientSecret: 2b58e2e694a11cb8406d01119d1c1dc9b284e513
+            redirectUriTemplate: "{baseUrl}/oauth2/callback/{registrationId}"
+            scope:
+              - read:user
+              - user:email
+        # provider details (e.g. user info endpoint to leverage openid - protocol)
         provider:
           local-auth-provider:
             authorizationUri: http://localhost:9000/oauth/authorize
             tokenUri: http://localhost:9000/oauth/token
             user-info-uri: http://localhost:9100/me
             user-name-attribute: name
+          google:
+            authorizationUri: https://accounts.google.com/o/oauth2/auth
+            tokenUri: https://oauth2.googleapis.com/token
+            userInfoEndpoint:
+              uri: https://www.googleapis.com/oauth2/v2/userinfo
+          github:
+            authorizationUri: https://github.com/login/oauth/authorize
+            tokenUri: https://github.com/login/oauth/access_token
+            userInfoEndpoint:
+              uri: https://api.github.com/user
 logging:
   level:
     org.springframework.security: DEBUG

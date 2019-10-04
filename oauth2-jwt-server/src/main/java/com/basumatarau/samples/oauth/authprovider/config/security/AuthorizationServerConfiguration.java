@@ -1,6 +1,7 @@
 package com.basumatarau.samples.oauth.authprovider.config.security;
 
 import com.basumatarau.samples.oauth.authprovider.config.props.SecurityProperties;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,13 +14,14 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
+import org.springframework.security.oauth2.provider.token.AuthenticationKeyGenerator;
+import org.springframework.security.oauth2.provider.token.DefaultAuthenticationKeyGenerator;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory;
 
-import javax.sql.DataSource;
 import java.security.KeyPair;
 
 @Configuration
@@ -27,7 +29,7 @@ import java.security.KeyPair;
 @EnableConfigurationProperties(SecurityProperties.class)
 public class AuthorizationServerConfiguration extends AuthorizationServerConfigurerAdapter {
 
-    private final DataSource dataSource;
+    private final ClientDetailsService clientDetailsService;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final SecurityProperties securityProperties;
@@ -36,22 +38,29 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
     private JwtAccessTokenConverter jwtAccessTokenConverter;
     private TokenStore tokenStore;
 
-    public AuthorizationServerConfiguration(final DataSource dataSource, final PasswordEncoder passwordEncoder,
-                                            final AuthenticationManager authenticationManager, final SecurityProperties securityProperties,
-                                            final UserDetailsService userDetailsService) {
-        this.dataSource = dataSource;
+    public AuthorizationServerConfiguration(final PasswordEncoder passwordEncoder,
+                                            final AuthenticationManager authenticationManager,
+                                            final SecurityProperties securityProperties,
+                                            final UserDetailsService userDetailsService,
+                                            final ClientDetailsService clientDetailsService) {
         this.passwordEncoder = passwordEncoder;
         this.authenticationManager = authenticationManager;
         this.securityProperties = securityProperties;
         this.userDetailsService = userDetailsService;
+        this.clientDetailsService = clientDetailsService;
     }
 
+//    @Bean
+//    public TokenStore tokenStore() {
+//        if (tokenStore == null) {
+//            tokenStore = new JwtTokenStore(jwtAccessTokenConverter());
+//        }
+//        return tokenStore;
+//    }
+
     @Bean
-    public TokenStore tokenStore() {
-        if (tokenStore == null) {
-            tokenStore = new JwtTokenStore(jwtAccessTokenConverter());
-        }
-        return tokenStore;
+    public AuthenticationKeyGenerator authenticationKeyGenerator(){
+        return new DefaultAuthenticationKeyGenerator();
     }
 
     @Bean
@@ -81,8 +90,7 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
 
     @Override
     public void configure(final ClientDetailsServiceConfigurer clients) throws Exception {
-        clients
-                .jdbc(this.dataSource);
+        clients.withClientDetails(clientDetailsService);
     }
 
     @Override
@@ -90,7 +98,7 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
         endpoints.authenticationManager(this.authenticationManager)
                 .accessTokenConverter(jwtAccessTokenConverter())
                 .userDetailsService(this.userDetailsService)
-                .tokenStore(tokenStore());
+                .tokenStore(tokenStore);
     }
 
     @Override

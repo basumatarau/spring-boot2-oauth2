@@ -1,5 +1,6 @@
 package com.basumatarau.samples.oauth.authprovider.config.security;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -9,7 +10,6 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.sql.DataSource;
@@ -18,10 +18,12 @@ import javax.sql.DataSource;
 @EnableWebSecurity
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
+    @Autowired
+    private UserDetailsService userDetailsService;
+
     private final DataSource dataSource;
 
     private PasswordEncoder passwordEncoder;
-    private UserDetailsService userDetailsService;
 
     public WebSecurityConfiguration(final DataSource dataSource) {
         this.dataSource = dataSource;
@@ -34,7 +36,10 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .anyRequest()
-                .authenticated();
+                .authenticated()
+                .and()
+                .anonymous()
+                .disable();
     }
 
     @Override
@@ -60,16 +65,6 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
             passwordEncoder = DefaultPasswordEncoderFactories.createDelegatingPasswordEncoder();
         }
         return passwordEncoder;
-    }
-
-    @Bean
-    @Override
-    public UserDetailsService userDetailsService() {
-        if (userDetailsService == null) {
-            userDetailsService = new JdbcDaoImpl();
-            ((JdbcDaoImpl) userDetailsService).setDataSource(dataSource);
-        }
-        return userDetailsService;
     }
 
 }
