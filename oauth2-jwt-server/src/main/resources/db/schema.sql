@@ -8,7 +8,7 @@ COMMENT ON SCHEMA auth_schema IS 'oauth2 authorization server db schema';
 
 -- DROP TABLE auth_schema.oauth_client_details;
 CREATE TABLE IF NOT EXISTS auth_schema.oauth_client_details (
-  client_id VARCHAR(256) PRIMARY KEY,
+  client_id VARCHAR(256),
   resource_ids VARCHAR(256),
   client_secret VARCHAR(256) NOT NULL,
   scope VARCHAR(256),
@@ -18,7 +18,9 @@ CREATE TABLE IF NOT EXISTS auth_schema.oauth_client_details (
   access_token_validity int4,
   refresh_token_validity int4,
   additional_information VARCHAR(4000),
-  autoapprove VARCHAR(256)
+  autoapprove VARCHAR(256),
+
+  CONSTRAINT oauth_client_details_pk PRIMARY KEY (client_id)
 );
 
 -- DROP TABLE auth_schema.oauth_client_token;

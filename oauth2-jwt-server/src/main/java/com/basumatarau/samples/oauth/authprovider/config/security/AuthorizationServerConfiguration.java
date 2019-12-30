@@ -94,14 +94,14 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
                 .authenticationManager(this.authenticationManager)
                 .accessTokenConverter(jwtAccessTokenConverter())
                 .userDetailsService(this.userDetailsService)
-                .tokenStore(tokenStore())
-                .tokenEnhancer(tokenEnhancer());
+                .tokenStore(tokenStore());
+                //.tokenEnhancer(tokenEnhancer());
     }
 
-    @Bean
-    public TokenEnhancer tokenEnhancer() {
-        return new CustomTokenEnhancer();
-    }
+//    @Bean
+//    public TokenEnhancer tokenEnhancer() {
+//        return new CustomTokenEnhancer();
+//    }
 
     @Override
     public void configure(final AuthorizationServerSecurityConfigurer oauthServer) {
