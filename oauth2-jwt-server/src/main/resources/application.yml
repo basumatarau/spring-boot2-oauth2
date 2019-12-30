@@ -14,18 +14,22 @@ spring:
   jackson:
     serialization:
       INDENT_OUTPUT: true
-  jpa:
-    properties:
-      hibernate:
-        jdbc:
-          lob:
-            #noncontextual lob creation switch-on
-            #https://github.com/spring-projects/spring-boot/issues/12007#issuecomment-369388646
-            non_contextual_creation: true
-        format_sql: true
-        ddl-auto: validate
-        dialect: org.hibernate.dialect.PostgreSQLDialect
-    show-sql: true
+  datasource:
+    url: jdbc:postgresql://localhost:5432/auth-service-db
+    username: postgres
+    password: root
+    driver-class-name: org.postgresql.Driver
+    testWhileIdle: true
+    validationQuery: SELECT 1
+    hikari:
+      connectionTimeout: 30000
+      idleTimeout: 600000
+      maxLifetime: 1800000
+      maximumPoolSize: 20
+    schema: classpath:db/schema.sql
+    data: classpath:db/data.sql
+    initialization-mode: always
 logging:
   level:
     org.springframework.security: DEBUG
+    org.springframework.jdbc.core: TRACE
