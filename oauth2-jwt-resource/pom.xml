@@ -13,11 +13,6 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>oauth2-jwt-resource</artifactId>
-    <description>
-        <![CDATA[
-            Playground project for OAuth2 + JWT using Spring Security
-        ]]>
-    </description>
 
     <dependencies>
         <dependency>

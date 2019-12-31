@@ -22,6 +22,15 @@ public class SecurityProperties {
         private String keyStorePassword;
         private String keyPairAlias;
         private String keyPairPassword;
+        private String kid;
+
+        public String getKid() {
+            return kid;
+        }
+
+        public void setKid(String kid) {
+            this.kid = kid;
+        }
 
         public Resource getKeyStore() {
             return keyStore;

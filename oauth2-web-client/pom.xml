@@ -12,11 +12,6 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>oauth-jwt-webclient</artifactId>
-    <description>
-        <![CDATA[
-            Playground project for OAuth2 + JWT using Spring Security
-        ]]>
-    </description>
 
     <dependencies>
         <dependency>

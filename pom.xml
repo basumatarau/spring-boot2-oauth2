@@ -14,43 +14,9 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>spring-boot2-oauth2-jwt</name>
-	<description>
-		<![CDATA[
-			OAuth2 + JWT using Spring Boot 2 / Spring Security 5
-		]]>
-	</description>
-
-	<licenses>
-		<license>
-			<name>Apache License, Version 2.0</name>
-			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-			<distribution>repo</distribution>
-		</license>
-	</licenses>
-
-	<developers>
-		<developer>
-			<id>marcosbarbero</id>
-			<email>marcos.hgb@gmail.com</email>
-			<name>Marcos Barbero</name>
-			<timezone>Europe/Amsterdam</timezone>
-			<roles>
-				<role>Project Lead</role>
-			</roles>
-		</developer>
-	</developers>
-
-	<scm>
-		<connection>scm:git:https://github.com/marcosbarbero/spring-boot2-oauth2-jwt.git</connection>
-		<developerConnection>
-			scm:git:git@github.com:marcosbarbero/spring-boot2-oauth2-jwt.git
-		</developerConnection>
-		<url>https://github.com/marcosbarbero/spring-boot2-oauth2-jwt</url>
-		<tag>HEAD</tag>
-	</scm>
 
 	<properties>
-		<java.version>1.8</java.version>
+		<java.version>11</java.version>
 		<jackson-databind.version>2.9.10</jackson-databind.version>
 	</properties>
 

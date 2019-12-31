@@ -6,10 +6,11 @@ server:
         name: AUTHSERVERSESSIONID
 security:
   jwt:
-    key-store: classpath:keystore.jks
-    key-store-password: letmein
-    key-pair-alias: mytestkey
-    key-pair-password: changeme
+    key-store: classpath:demo_keystore.jks
+    key-store-password: secret
+    key-pair-alias: chuck
+    key-pair-password: secret
+    kid: auth-1
 spring:
   jackson:
     serialization:
